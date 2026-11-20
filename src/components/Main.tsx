@@ -3,7 +3,7 @@ import { ChooseModel, ChooseModelModal } from './ChooseModel.js';
 import { Chat } from './Chat.js';
 import { genNewChat } from '../utils/ollama-client.js';
 import { ChooseChat, ChooseChatModal } from './ChooseChat.js';
-import { Box, NodeMap, useKeymap, useNodeMap, Node, useModal } from 'tuir';
+import { Box, NodeMap, useApp, useKeymap, useNodeMap, Node, useModal } from 'tuir';
 import { Prompt } from './Prompt.js';
 import { NewChat } from './NewChat.js';
 import { openWebStore } from '../stores/index.js';
@@ -16,10 +16,14 @@ export function Main() {
   const [prompt, setPrompt] = useState('');
   const chooseModelModal = useModal({ show: { input: '' }, hide: { key: 'esc' } });
   const chooseChatModal = useModal({ show: { input: '' }, hide: { key: 'esc' } });
+  const { exit } = useApp();
 
   const { useEvent } = useKeymap({
     // goToNode: [{ input: 'A' }, { input: 'B' }, { input: 'C' }, { input: 'D' }],
     next: { key: 'tab' },
+    newChat: { key: 'ctrl', input: 'n' },
+    chooseChat: { key: 'ctrl', input: 't' },
+    quit: { key: 'ctrl', input: 'q' },
   });
 
   // useEvent('goToNode', (char: string) => {
@@ -28,6 +32,18 @@ export function Main() {
 
   useEvent('next', () => {
     control.next();
+  });
+
+  useEvent('newChat', () => {
+    newChatSubmit();
+  });
+
+  useEvent('chooseChat', () => {
+    chooseChatModal.showModal();
+  });
+
+  useEvent('quit', () => {
+    exit();
   });
 
   function newChatSubmit() {
