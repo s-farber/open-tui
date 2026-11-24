@@ -7,6 +7,12 @@
 
 <img src="static/open-tui-demo.gif" alt="demo">
 
+> [!IMPORTANT]
+> This repository is **[s-farber/open-tui](https://github.com/s-farber/open-tui)**, a fork of the
+> original **[ZachJW34/open-tui](https://github.com/ZachJW34/open-tui)**, where upstream
+> development happens. `npm i -g open-tui` installs the **upstream** package, not this fork - use
+> the install steps below to get this fork's code.
+
 ## About
 
 **open-tui** is a terminal application aiming to provide a similar user experience to [Open WebUI](https://github.com/open-webui/open-webui)... but in the terminal. Tired of context switching back and forth between your browser? Then this is the TUI for you! **open-tui** currently supports:
@@ -20,17 +26,26 @@
 
 ## Download/Usage
 
-To install globally:
+> **Note:** `npm i -g open-tui` installs the **upstream** package
+> ([ZachJW34/open-tui](https://github.com/ZachJW34/open-tui)), not this fork. To install this
+> fork, build it from source:
 
 ```sh
-npm i -g open-tui
+git clone https://github.com/s-farber/open-tui.git && \
+cd open-tui && \
+bun install && \
+bun run build && \
+bun link
 ```
 
-then run
+`bun run build` writes `dist/cli.js`, which is what the `open-tui` command runs, and `bun link`
+puts that command on your `PATH`. Then run
 
 ```sh
 open-tui
 ```
+
+To run straight from a clone without linking anything, use `bun run dev` instead.
 
 **open-tui** requires two environment variables to function:
 
@@ -54,19 +69,27 @@ export them via `export VARIABLE_NAME=value` (preferably in your `.zshrc` to per
 **Requirements**
 
 - [Bun](https://bun.sh/)
+- [Node.js](https://nodejs.org/) on `PATH` - the built `dist/cli.js` runs under `node`
 
 ```sh
-git clone https://github.com/ZachJW34/open-tui.git && \
+git clone https://github.com/s-farber/open-tui.git && \
 cd open-tui && \
 bun i && \
 bun run dev
 ```
+
+Substitute `https://github.com/ZachJW34/open-tui.git` to work on the original project instead.
 
 ## Further improvements
 
 Open WebUI is a feature packed application so I don't expect this TUI to ever have featuer parity with it. Nonetheless, I'd like to expand upon it so as to limit the amount of times I have to switch to the web version. This could be:
 
 - [x] Multiline prompt support: Currently annoying to only be able to input on one continuous line without line breaks
+- [x] Newline on `Shift+Enter` and `Ctrl+J`, including terminals that report `Shift+Enter` as an escape sequence (this fork)
+- [x] Readline-style prompt editing: `Ctrl+A/E/B/F/D/K/U/W`, `Alt+Backspace`/`Alt+Delete`, `Alt+Left`/`Alt+Right` (this fork)
+- [x] Agent activity indicator with elapsed time while a request is in flight (this fork)
+- [x] Support for Open WebUI >= 0.13 chat events and completion payloads (this fork)
+- [x] Less flicker: only the lines that changed are repainted (this fork)
 - [ ] Respect Open WebUI user settings: Templates, variables etc..
 - [ ] Delete chats
 - [ ] Regenerate/modify responses
@@ -80,4 +103,6 @@ Currently, it scratches the itch of being able to quickly pull up an LLM while d
 
 ## Contributing
 
-Contributors welcome! Feel free to fork and create a PR.
+Contributors welcome! Feel free to fork and create a PR. Changes meant for the original project
+should be sent to [ZachJW34/open-tui](https://github.com/ZachJW34/open-tui); the fork notice at the
+top of this file lists what this branch adds on top of it.
